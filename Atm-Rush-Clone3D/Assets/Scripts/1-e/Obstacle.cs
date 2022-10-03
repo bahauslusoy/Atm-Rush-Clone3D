@@ -5,14 +5,29 @@ using DG.Tweening;
 
 public class Obstacle : MonoBehaviour
 {
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Collected"))
         {
-            if (CollectList.instance.inventory.Count-1 == CollectList.instance.inventory.IndexOf(other.gameObject)) //listenin son eleman� ise
+            if (CollectList.instance.inventory.Count - 1 == CollectList.instance.inventory.IndexOf(other.gameObject)) //listenin son eleman� ise
             {
+
+
                 CollectList.instance.inventory.Remove(other.gameObject);
+                
                 Destroy(other.gameObject);
+
                 CollectList.instance.ScoreUpdate();
             }
 
@@ -23,18 +38,19 @@ public class Obstacle : MonoBehaviour
 
                 for (int i = crashObjIndex; i <= lastIndex; i++)
                 {
+                    //gameManager.DestroyEffect(gameObject.transform);
                     RemoveList(CollectList.instance.inventory[crashObjIndex]);
                     CollectList.instance.ScoreUpdate();
                 }
             }
         }
-
         else if (other.CompareTag("Character"))
         {
             StartCoroutine(Crash());
-            other.transform.DOMove(other.transform.position - new Vector3(0, 0,2), 1).SetEase(Ease.OutBounce);
+            other.transform.DOMove(other.transform.position - new Vector3(0, 0, 2), 0.5f).SetEase(Ease.OutBounce);
         }
     }
+
 
     IEnumerator Crash()
     {
@@ -50,17 +66,18 @@ public class Obstacle : MonoBehaviour
         crashObj.GetComponent<BoxCollider>().isTrigger = true;
         crashObj.GetComponent<Collect>().enabled = false;
 
-        GameObject bounceMoney = Instantiate(crashObj,RandomPos(transform),Quaternion.identity);
+        GameObject bounceMoney = Instantiate(crashObj, RandomPos(transform), Quaternion.identity);
         Destroy(bounceMoney.GetComponent<Rigidbody>());
-        bounceMoney.transform.DOMove(bounceMoney.transform.position - new Vector3(0, 2, 0), 1).SetEase(Ease.OutBounce);
-        Destroy(crashObj);      
+        bounceMoney.transform.DOMove(bounceMoney.transform.position - new Vector3(0, 3, 0), 1).SetEase(Ease.OutBounce);
+        Destroy(crashObj);
     }
 
     public Vector3 RandomPos(Transform obstacle)
     {
-        float x = Random.Range(-4, 4);
-        float z = Random.Range(10, 20);
-        Vector3 posisiton = new Vector3(x, 3, obstacle.position.z + z);
-        return posisiton;
+        float x = Random.Range(-1.45f, 1.45f);
+        float z = Random.Range(1, 3.5f);
+        Vector3 pos_ = new Vector3(x, 3, obstacle.position.z + z);
+        return pos_;
     }
+
 }

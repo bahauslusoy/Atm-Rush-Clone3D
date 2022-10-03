@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using DG.Tweening;
+using TMPro;
 
 public class CollectList : MonoBehaviour
 {
@@ -28,12 +28,9 @@ public class CollectList : MonoBehaviour
         obj.transform.parent = player;
         Vector3 newPos = inventory[index].transform.localPosition;
 
-        if (inventory[index].CompareTag("Character"))
+        
         {
-            newPos += new Vector3(0, 0.5f, 2);
-        }
-        else
-        {
+            
             newPos.z += 1;
         }       
         
@@ -75,6 +72,6 @@ public class CollectList : MonoBehaviour
             score += inventory[i].GetComponent<Money>().value;
         }
 
-        scoreText.text = score.ToString();
+      //  scoreText.text = score.ToString();
     }
 }
